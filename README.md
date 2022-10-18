@@ -1,3 +1,5 @@
+This repository is archived. Please use the builds from the upstream [async-profiler](https://github.com/jvm-profiling-tools/async-profiler) project and contact us if you make use of async-profiler on PowerPC.
+
 # async-profiler
 
 This is a fork of the upstream project https://github.com/jvm-profiling-tools/async-profiler.

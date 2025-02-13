@@ -491,7 +491,7 @@ int Profiler::getJavaTraceAsync(void* ucontext, ASGCT_CallFrame* frames, int max
                 }
             }
         }
-    } else if (trace.num_frames == ticks_unknown_not_Java && _features.java_anchor) {
+    } else if (!on_ppc64 && trace.num_frames == ticks_unknown_not_Java && _features.java_anchor) {
         JavaFrameAnchor* anchor = vm_thread->anchor();
         uintptr_t sp = anchor->lastJavaSP();
         const void* pc = anchor->lastJavaPC();

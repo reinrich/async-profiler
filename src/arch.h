@@ -201,5 +201,16 @@ static inline const void* stripPointer(const void* p) {
 #  define stripPointer(p)  (p)
 #endif
 
+// SapMachine 2025-03-11
+#if defined(__PPC64__) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
+#define PPC64_ONLY(code) code
+#define NOT_PPC64(code)
+#else
+#define PPC64_ONLY(code)
+#define NOT_PPC64(code) code
+#endif
+
+// SapMachine 2025-03-11
+bool constexpr on_ppc64 = PPC64_ONLY(true ||) false;
 
 #endif // _ARCH_H

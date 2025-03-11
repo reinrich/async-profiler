@@ -110,7 +110,8 @@ struct StackWalkFeatures {
     unsigned short pc_addr       : 1;
     unsigned short _reserved     : 5;
 
-    StackWalkFeatures() : unknown_java(1), unwind_stub(1), unwind_comp(1), unwind_native(1), java_anchor(1), gc_traces(1),
+    // SapMachine 2025-03-11: disable java_anchor by dflt
+    StackWalkFeatures() : unknown_java(1), unwind_stub(1), unwind_comp(1), unwind_native(1), java_anchor(0), gc_traces(1),
                           stats(0), probe_sp(0), vtable_target(0), comp_task(0), pc_addr(0), _reserved(0) {
     }
 };

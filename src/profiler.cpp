@@ -495,10 +495,10 @@ int Profiler::getJavaTraceAsync(void* ucontext, ASGCT_CallFrame* frames, int max
         JavaFrameAnchor* anchor = vm_thread->anchor();
         uintptr_t sp = anchor->lastJavaSP();
         const void* pc = anchor->lastJavaPC();
-        if (sp != 0 && pc == NULL) {
+        if (sp != 0 && pc == NULL && SafeAccess::lastJavaPCFromStack(sp) != NULL) {
             // We have the last Java frame anchor, but it is not marked as walkable.
             // Make it walkable here
-            pc = ((const void**)sp)[-1];
+            pc = SafeAccess::lastJavaPCFromStack(sp, saved_sp);
             anchor->setLastJavaPC(pc);
 
             NMethod* m = CodeHeap::findNMethod(pc);

@@ -59,6 +59,23 @@ class SafeAccess {
 #endif
         return 0;
     }
+
+    static const void* lastJavaPCFromStack(uintptr_t lastJavaSP, uintptr_t topSP) {
+      const void* lastJavaPC = NULL;
+#if defined(__aarch64__)
+        // If not stored in the frame anchor, the last java pc is always stored in the stack before setting the last java sp.
+        lastJavaPC = ((const void**)lastJavaSP)[-1];
+#elif defined(__PPC64__) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
+        // Rely on the vm to find th last java pc. Failure means the attempt would be unsafe.
+#else
+        if (lastJavaSP < topSP) {
+            // The callee of the last java frame is already on stack. This means
+            // the call instruction stored the last java pc on stack.
+            lastJavaPC = ((const void**)lastJavaSP)[-1];
+        }
+#endif
+        return lastJavaPC;
+    }
 };
 
 #endif // _SAFEACCESS_H

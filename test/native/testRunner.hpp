@@ -155,4 +155,8 @@ struct TestRegistrar {
 
 bool fileReadable(const char* filename);
 
+#ifdef ECLIPSE_CDT
+#include "rr_include_everything.hpp"
+#endif
+
 #endif // _TESTRUNNER_HPP

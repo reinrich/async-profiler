@@ -172,7 +172,7 @@ TEST_CASE(ForName_Breakpoint_Symbol) {
     const __u64 strcmp_addr = (__u64)(uintptr_t)dlsym(RTLD_DEFAULT, "strcmp");
 
     ASSERT_NE(strcmp_addr, 0);
-    ASSERT_BP(event_type, HW_BREAKPOINT_RW, strcmp_addr, 1, 0);
+    ASSERT_BP(event_type, HW_BREAKPOINT_RW, strcmp_addr + BREAKPOINT_OFFSET, 1, 0);
 }
 
 TEST_CASE(ForName_Tracepoint_Invalid) {
@@ -260,7 +260,7 @@ TEST_CASE(ForName_symbol) {
     const __u64 strcmp_addr = (__u64)(uintptr_t)dlsym(RTLD_DEFAULT, "strcmp");
 
     ASSERT_NE(strcmp_addr, 0);
-    ASSERT_BP(event_type, HW_BREAKPOINT_X, strcmp_addr, sizeof(long), 0);
+    ASSERT_BP(event_type, HW_BREAKPOINT_X, strcmp_addr + BREAKPOINT_OFFSET, sizeof(long), 0);
 }
 
 TEST_CASE(ForName_symbol_private) {
@@ -268,7 +268,7 @@ TEST_CASE(ForName_symbol_private) {
     PerfEventType* event_type = PerfEventType::forName("asprof_execute");
 
     const __u64 addr = (__u64)(uintptr_t)asprof_execute;
-    ASSERT_BP(event_type, HW_BREAKPOINT_X, addr, sizeof(long), 0);
+    ASSERT_BP(event_type, HW_BREAKPOINT_X, addr + BREAKPOINT_OFFSET, sizeof(long), 0);
 
     const __u64 dyn_addr = (__u64)(uintptr_t)dlsym(RTLD_DEFAULT, "asprof_execute");
     // This symbol is not a dynamic symbol.

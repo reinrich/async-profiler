@@ -178,6 +178,7 @@ void CodeCache::saveImport(ImportId id, void** entry) {
 }
 
 void CodeCache::addImport(void** entry, const char* name) {
+  DDD_T(S, name);
     switch (name[0]) {
         case 'a':
             if (strcmp(name, "aligned_alloc") == 0) {

@@ -206,6 +206,16 @@ inline u32 Profiler::getLockIndex(int tid) {
 }
 
 void Profiler::updateSymbols(bool kernel_symbols) {
+  DDD_T(I, kernel_symbols);
+#if 0
+  printf("DDD %s:%d " "kernel_symbols" ":" "%"          PRId64
+                             "\n",
+                             __func__,
+                             209,
+                             uint64_t(kernel_symbols));
+#endif
+
+  DDD_print_stack();
     Symbols::parseLibraries(&_native_libs, kernel_symbols);
 }
 

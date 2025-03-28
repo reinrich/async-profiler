@@ -705,7 +705,7 @@ static int parseLibrariesCallback(struct dl_phdr_info* info, size_t size, void* 
 
     while ((len = getline(&str, &str_size, f)) > 0) {
         str[len - 1] = 0;
-
+DDD_T(S, str);
         MemoryMapDesc map(str);
         if (!map.isReadable() || map.file() == NULL || map.file()[0] == 0) {
             continue;

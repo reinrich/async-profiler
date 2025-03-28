@@ -25,7 +25,7 @@ TEST_CASE(ResolveFromRela_plt) {
     ASSERT_RESOLVE(im_pthread_create);
 }
 
-TEST_CASE(ResolveFromRela_dyn_R_GLOB_DAT) {
+ONLY_TEST_CASE(ResolveFromRela_dyn_R_GLOB_DAT) {
     ASSERT_RESOLVE(im_pthread_setspecific);
 }
 

@@ -26,7 +26,15 @@ TEST_CASE(ResolveFromRela_plt) {
 }
 
 ONLY_TEST_CASE(ResolveFromRela_dyn_R_GLOB_DAT) {
-    ASSERT_RESOLVE(im_pthread_setspecific);
+    {
+        void* result = dlopen("libreladyn.so", RTLD_NOW); /* see reladyn.c */
+        ASSERT(result);
+        Profiler::instance()->updateSymbols(false);
+        CodeCache* libreladyn = Profiler::instance()->findLibraryByName("libreladyn");
+        ASSERT(libreladyn);
+        void* sym = libreladyn->findImport(im_pthread_setspecific);
+        ASSERT(sym);
+    }
 }
 
 TEST_CASE(ResolveFromRela_dyn_R_ABS64) {

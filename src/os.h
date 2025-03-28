@@ -168,6 +168,7 @@ class OS {
 #define DDD_T_PASTE(a, b) a##b
 #define DDD_T_MACRO_CONCAT(a, b) DDD_T_PASTE(a, b)
 #define DDD_T(...) DDD_T_MACRO_CONCAT(DDD_T_, DDD_T_NUM_ARG_PAIRS(__VA_ARGS__))(__VA_ARGS__)
+#define DDD_T_(...)
 
 #define DDD_D_1(f1, v1)                                 \
                              printf("DDD %s:%d "               \

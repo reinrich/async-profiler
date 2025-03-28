@@ -453,9 +453,12 @@ uint32_t ElfParser::getSymbolCount(uint32_t* gnu_hash) {
 
 void ElfParser::loadSymbols(bool use_debug) {
     ElfSection* symtab = findSection(SHT_SYMTAB, ".symtab");
+    DDD_T(P, symtab, I, use_debug);
     if (symtab != NULL) {
         // Parse debug symbols from the original .so
         ElfSection* strtab = section(symtab->sh_link);
+        DDD_T(P, symtab->sh_link, P, strtab, P, symtab->sh_size);
+        DDD_T(P, symtab->sh_entsize, P, symtab->sh_offset, P, strtab->sh_offset);
         loadSymbolTable(at(symtab), symtab->sh_size, symtab->sh_entsize, at(strtab));
         _cc->setDebugSymbols(true);
     } else if (use_debug) {
@@ -601,6 +604,12 @@ void ElfParser::loadSymbolTable(const char* symbols, size_t total_size, size_t e
     const char* base = this->base();
     for (const char* symbols_end = symbols + total_size; symbols < symbols_end; symbols += ent_size) {
         ElfSymbol* sym = (ElfSymbol*)symbols;
+        DDD_T(P, sym->st_name);
+        if (sym->st_name != 0) {
+          char buf[32];
+          strncpy(buf, &strings[sym->st_name], sizeof(buf) - 1);
+          DDD_T(S, buf);
+        }
         if (sym->st_name != 0 && sym->st_value != 0) {
             // Skip special AArch64 mapping symbols: $x and $d
             if (sym->st_size != 0 || sym->st_info != 0 || strings[sym->st_name] != '$') {
@@ -742,6 +751,7 @@ DDD_T(S, str);
         cc = new CodeCache(map.file(), count, false, map_start, map_end);
         cc_inode = inode;
 
+        DDD_T(I, inode, I, last_inode, I, (inode == last_inode));
         if (strchr(map.file(), ':') != NULL) {
             // Do not try to parse pseudofiles like anon_inode:name, /memfd:name
         } else if (inode != 0) {
